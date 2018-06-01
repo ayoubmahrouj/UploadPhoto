@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListProduitTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ProduitListForm">
+                <p:dataGrid var="item" value="#{produitController.items}" columns="4" layout="grid"
+                            rows="8" paginator="true" id="datalist"
+                            emptyMessage="AUCUN PRODUIT"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="4,8,12,16">
+
+                    <f:facet name="header">
+                        LISTE DES PRODUITS
+                    </f:facet>
+
+                    <p:panel>
+                        <p:panelGrid columns="2" style="width:100%" >
+                            <f:facet name="header">                                
+                                        <p:graphicImage style="height: 150px;width: 100%;"
+                                                        value="/img/?file=#{produitController.findPath(item)}"
+                                                        alt="/img/?file=#{produitController.findPath(item)}" title="IMAGE"/>
+                            </f:facet>
+                            <h:outputText value="LIBELLE" />
+                            <h:outputText value="#{item.libelle}" class="tailleMLabelG" />
+                            
+                        </p:panelGrid>   
+                    </p:panel>
+                    <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{produitController.prepareCreate}" update=":ProduitCreateForm" oncomplete="PF('ProduitCreateDialog').show()"/>
+                    </f:facet>
+                </p:dataGrid>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>
